@@ -20,6 +20,9 @@
 		8DFB028C1FBC7A770083ECF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFB028B1FBC7A770083ECF6 /* main.m */; };
 		8DFB02961FBC7A770083ECF6 /* audio_demoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFB02951FBC7A770083ECF6 /* audio_demoTests.m */; };
 		8DFB02A11FBC7A770083ECF6 /* audio_demoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DFB02A01FBC7A770083ECF6 /* audio_demoUITests.m */; };
+		A964C32D2637B90D0007235F /* PcmTomp3.m in Sources */ = {isa = PBXBuildFile; fileRef = A964C3292637B90C0007235F /* PcmTomp3.m */; };
+		A964C32E2637B90D0007235F /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A964C32C2637B90D0007235F /* libmp3lame.a */; };
+		A9730F452637C1DD005FE057 /* MZDFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9730F432637C1DD005FE057 /* MZDFileViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +72,12 @@
 		8DFB02A01FBC7A770083ECF6 /* audio_demoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = audio_demoUITests.m; sourceTree = "<group>"; };
 		8DFB02A21FBC7A770083ECF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DFB02AF1FBC7ADE0083ECF6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A964C3292637B90C0007235F /* PcmTomp3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PcmTomp3.m; sourceTree = "<group>"; };
+		A964C32A2637B90C0007235F /* PcmTomp3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmTomp3.h; sourceTree = "<group>"; };
+		A964C32B2637B90C0007235F /* lame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lame.h; sourceTree = "<group>"; };
+		A964C32C2637B90D0007235F /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmp3lame.a; sourceTree = "<group>"; };
+		A9730F432637C1DD005FE057 /* MZDFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZDFileViewController.m; sourceTree = "<group>"; };
+		A9730F442637C1DD005FE057 /* MZDFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZDFileViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A964C32E2637B90D0007235F /* libmp3lame.a in Frameworks */,
 				8D9287BC1FBD98070084D4E7 /* libopencore-amrwb.a in Frameworks */,
 				8D9287BB1FBD98070084D4E7 /* libopencore-amrnb.a in Frameworks */,
 			);
@@ -165,11 +175,14 @@
 		8DFB027B1FBC7A770083ECF6 /* audio_demo */ = {
 			isa = PBXGroup;
 			children = (
+				A964C3282637B9040007235F /* lame */,
 				8D9287A91FBD98070084D4E7 /* libopencore-amr */,
 				8DFB027C1FBC7A770083ECF6 /* AppDelegate.h */,
 				8DFB027D1FBC7A770083ECF6 /* AppDelegate.m */,
 				8DFB027F1FBC7A770083ECF6 /* ViewController.h */,
 				8DFB02801FBC7A770083ECF6 /* ViewController.m */,
+				A9730F442637C1DD005FE057 /* MZDFileViewController.h */,
+				A9730F432637C1DD005FE057 /* MZDFileViewController.m */,
 				8DFB02821FBC7A770083ECF6 /* Main.storyboard */,
 				8DFB02851FBC7A770083ECF6 /* Assets.xcassets */,
 				8DFB02871FBC7A770083ECF6 /* LaunchScreen.storyboard */,
@@ -203,6 +216,17 @@
 				8DFB02AF1FBC7ADE0083ECF6 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A964C3282637B9040007235F /* lame */ = {
+			isa = PBXGroup;
+			children = (
+				A964C32B2637B90C0007235F /* lame.h */,
+				A964C32C2637B90D0007235F /* libmp3lame.a */,
+				A964C32A2637B90C0007235F /* PcmTomp3.h */,
+				A964C3292637B90C0007235F /* PcmTomp3.m */,
+			);
+			path = lame;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,6 +365,8 @@
 				8D9287BA1FBD98070084D4E7 /* wav.mm in Sources */,
 				8DFB02811FBC7A770083ECF6 /* ViewController.m in Sources */,
 				8D9287B91FBD98070084D4E7 /* amrFileCodec.mm in Sources */,
+				A964C32D2637B90D0007235F /* PcmTomp3.m in Sources */,
+				A9730F452637C1DD005FE057 /* MZDFileViewController.m in Sources */,
 				8DFB028C1FBC7A770083ECF6 /* main.m in Sources */,
 				8D9287BD1FBD98070084D4E7 /* VoiceHandle.mm in Sources */,
 				8DFB027E1FBC7A770083ECF6 /* AppDelegate.m in Sources */,
@@ -508,7 +534,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UBKD898HW5;
+				DEVELOPMENT_TEAM = QUUBL29WS6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = audio_demo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -521,8 +547,9 @@
 					"$(PROJECT_DIR)/audio_demo/amrAndwav/opencore-amrwb",
 					"$(PROJECT_DIR)/audio_demo/libopencore-amr/opencore-amrnb",
 					"$(PROJECT_DIR)/audio_demo/libopencore-amr/opencore-amrwb",
+					"$(PROJECT_DIR)/audio_demo/lame",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qqxnz.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qqxnz.audio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -535,7 +562,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UBKD898HW5;
+				DEVELOPMENT_TEAM = QUUBL29WS6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = audio_demo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -548,8 +575,9 @@
 					"$(PROJECT_DIR)/audio_demo/amrAndwav/opencore-amrwb",
 					"$(PROJECT_DIR)/audio_demo/libopencore-amr/opencore-amrnb",
 					"$(PROJECT_DIR)/audio_demo/libopencore-amr/opencore-amrwb",
+					"$(PROJECT_DIR)/audio_demo/lame",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qqxnz.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qqxnz.audio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

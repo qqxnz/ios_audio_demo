@@ -9,7 +9,8 @@
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "VoiceHandle.h"
-
+#import "PcmTomp3.h"
+#import "MZDFileViewController.h"
 
 # define COUNTDOWN 60
 
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) AVAudioPlayer *player; //播放器
 @property (nonatomic, strong) NSURL *recordFileUrl; //文件地址
 
+@property (nonatomic, strong) NSString *mp3FIlePath;
 
 @end
 
@@ -38,7 +40,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    self.title = @"音频";
 }
 
 
@@ -80,13 +82,13 @@
     //设置参数
     NSDictionary *recordSetting = [[NSDictionary alloc] initWithObjectsAndKeys:
                                    //采样率  8000/11025/22050/44100/96000（影响音频的质量）
-                                   [NSNumber numberWithFloat: 8000.0],AVSampleRateKey,
+                                   [NSNumber numberWithFloat: 11025.0],AVSampleRateKey,
                                    // 音频格式
                                    [NSNumber numberWithInt: kAudioFormatLinearPCM],AVFormatIDKey,
                                    //采样位数  8、16、24、32 默认为16
                                    [NSNumber numberWithInt:16],AVLinearPCMBitDepthKey,
                                    // 音频通道数 1 或 2
-                                   [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
+                                   [NSNumber numberWithInt: 2], AVNumberOfChannelsKey,
                                    //录音质量
                                    [NSNumber numberWithInt:AVAudioQualityHigh],AVEncoderAudioQualityKey,
                                    nil];
@@ -113,7 +115,7 @@
     }
     
     
-
+    
     
 }
 
@@ -203,8 +205,8 @@
     
     NSLog(@"%d",i);
     
-//    NSLog(@"%@",data);
-
+    //    NSLog(@"%@",data);
+    
     if(i == 0){
         _noticeLabel.text = @"wavToamr----OK";
     }else{
@@ -232,10 +234,10 @@
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     amrPath_new = [path stringByAppendingString:@"/aaaa.amr"];
     
-   BOOL ok =  [[NSFileManager defaultManager] createFileAtPath:amrPath_new contents:data attributes:nil];
+    BOOL ok =  [[NSFileManager defaultManager] createFileAtPath:amrPath_new contents:data attributes:nil];
     
     if(ok){
-         _noticeLabel.text = @"strToamr----OK";
+        _noticeLabel.text = @"strToamr----OK";
         return;
     }
     _noticeLabel.text = @"strToamr----NO";
@@ -274,5 +276,48 @@
     
 }
 
+- (IBAction)wavTomp3:(id)sender {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    self.mp3FIlePath = [NSString stringWithFormat:@"%@/wavTomp3.mp3",path];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    if([manager removeItemAtPath:self.mp3FIlePath error:nil]){ NSLog(@"删除原MP3文件");
+        
+    }
+    
+    
+    PcmTomp3 *convert = [[PcmTomp3 alloc] init];
+    [convert setPcmFilePath:filePath];
+    [convert setMp3FilePath:self.mp3FIlePath];
+    
+    if([convert convertToMp3]){
+        NSLog(@"mp3转换成功！！");
+        
+        
+        if ([manager fileExistsAtPath:self.mp3FIlePath]){
+            
+            _noticeLabel.text = [NSString stringWithFormat:@"mp3转换成功,文件大小为 %.2fKb",[[manager attributesOfItemAtPath:self.mp3FIlePath error:nil] fileSize]/1024.0];
+            
+        }
+    }else{
+        _noticeLabel.text = @"mp3 转换失败";
+    }
+}
+
+- (IBAction)playmp3:(id)sender {
+    
+    if ([self.player isPlaying])return;
+    
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:self.mp3FIlePath] error:nil];
+    
+    NSLog(@"%li",self.player.data.length/1024);
+    
+    [self.session setCategory:AVAudioSessionCategoryPlayback error:nil];
+    [self.player play];
+    
+}
+- (IBAction)getfile:(id)sender {
+    MZDFileViewController *file = [[MZDFileViewController alloc]initWithPath:nil];
+    [self.navigationController pushViewController:file animated:YES];
+}
 
 @end
